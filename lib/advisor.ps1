@@ -380,7 +380,16 @@ function Get-AdvisorTips {
         $tips += @{ sig = 'reboot'; text = T 'adv.reboot'; act = 'ms-settings:windowsupdate'; actKey = 'adv.act.update'; hours = 24 }
     }
     foreach ($c in $s.cpu) {
-        $tips += @{ sig = "cpu|$($c.id)"; text = (T 'adv.cpu') -f $c.name, $c.core
+        # "149% of a core" reads like a bug - past one core, whole cores and the rest:
+        # "one whole core and 49% of another".
+        if ($c.core -ge 100) {
+            $whole = [int][math]::Floor($c.core / 100); $rest = $c.core % 100
+            $cores = if ($whole -eq 1) { T 'adv.cpu.one' } else { Format-Count $whole 'core' }
+            $text = if ($rest) { (T 'adv.cpu.cores') -f $c.name, $cores, $rest } else { (T 'adv.cpu.whole') -f $c.name, $cores }
+        } else {
+            $text = (T 'adv.cpu') -f $c.name, $c.core
+        }
+        $tips += @{ sig = "cpu|$($c.id)"; text = $text
                     act = 'taskmgr.exe'; actKey = 'adv.act.taskmgr'; hours = 24 }
     }
     foreach ($m in $s.mem) {
