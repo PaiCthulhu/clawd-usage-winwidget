@@ -7,7 +7,7 @@ are doing.
 
 ![A session starts working, finishes, then waits for you](docs/tour.gif)
 
-**English** · [Русский](README.ru.md)
+**English** · [Русский](README.ru.md) · [Español](README.es.md)
 
 - **Official numbers only.** Percentages come from `claude -p "/usage"` — the
   slash command runs headless, talks to Anthropic with your existing login and
@@ -436,7 +436,7 @@ are picked up on the fly, no restart needed.
 
 | key | meaning |
 |---|---|
-| `language` | `en`, `ru`, `fr` or `pt-BR` (also in Settings) |
+| `language` | `en`, `ru`, `fr`, `pt-BR` or `es` (also in Settings) |
 | `scale` | window scale, 0.6–4.0 (default 1.35; also in Settings) |
 | `opacity` | window opacity, 0–1 |
 | `topmost` | keep the window above all others |
@@ -503,6 +503,17 @@ version doesn't start. `tools\smoke.ps1` is the pre-release check: it starts a
 copy of the working tree in a sandbox (own folder, TEMP and mutex — the running
 widget is not touched), with the junk that once hung it, and checks an update
 and a rollback through `self-update.ps1`.
+
+To run on fixed data without Claude Code or network probes:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\smoke.ps1 -MockClaude
+powershell -ExecutionPolicy Bypass -File tools\reminders-test.ps1
+powershell -ExecutionPolicy Bypass -File tools\integration-test.ps1
+```
+
+`tools\screenshot.ps1 preview -Lang es -MainLimit week` renders mock data without
+Claude Code; `-MainLimit session` checks the default layout.
 
 `tools/` also holds the recorder that made the GIFs in this README: it boots the
 widget with scripted fake data and renders frames straight from WPF. It needs

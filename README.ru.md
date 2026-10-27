@@ -5,9 +5,9 @@
 
 ![Сессия начинает работать, заканчивает и ждёт ответа](docs/tour.gif)
 
-[English](README.md) · **Русский**
+[English](README.md) · **Русский** · [Español](README.es.md)
 
-Язык интерфейса по умолчанию английский; русский (или французский) включается в
+Язык интерфейса по умолчанию английский; русский, французский, португальский или испанский включается в
 настройках (шестерёнка в заголовке окна → Look → Русский) или ключом `"language": "ru"` в
 `config.json`.
 
@@ -493,7 +493,7 @@ Current week (Fable): 0% used · resets Sep 21, 6am (Europe/Moscow)
 
 | ключ | смысл |
 |---|---|
-| `language` | язык интерфейса: `en` (по умолчанию), `ru`, `fr` или `pt-BR` |
+| `language` | язык интерфейса: `en` (по умолчанию), `ru`, `fr`, `pt-BR` или `es` |
 | `refreshSeconds` | период перерисовки окна, сек |
 | `usageIntervalSeconds` | период опроса `/usage`, сек |
 | `versionIntervalSeconds` | период проверки обновления, сек |
@@ -574,6 +574,17 @@ foreach ($f in @('.\widget.ps1') + (Get-ChildItem .\lib\*.ps1).FullName) {
 рабочего дерева в песочнице (своя папка, TEMP и mutex — запущенный виджет не
 трогается) с тем мусором, на котором он однажды завис, и проверяет обновление и
 откат через `self-update.ps1`.
+
+Проверки на подставных данных без Claude Code и сетевых запросов:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\smoke.ps1 -MockClaude
+powershell -ExecutionPolicy Bypass -File tools\reminders-test.ps1
+powershell -ExecutionPolicy Bypass -File tools\integration-test.ps1
+```
+
+`tools\screenshot.ps1 preview -Lang es -MainLimit week` рисует подставные данные
+без Claude Code; `-MainLimit session` проверяет обычную раскладку.
 
 Ещё в `tools/` — скрипт, которым записаны гифки для README: запускает виджет на
 подставных данных по сценарию и рендерит кадры прямо из WPF. Ему нужны ffmpeg и
